@@ -88,6 +88,30 @@ public class StudentService {
     //14-
     public List<Student> getAllStudentsByLastName(String lastName) {
 
-        return studentRepository.findAllByLastName(lastName);
+        return studentRepository.findAllByLastName(lastName);//select * from student where lastName=''
+    }
+
+    public List<Student> getAllStudentByGrade(Integer grade) {
+
+        //return studentRepository.findAllByGrade(grade);
+        return studentRepository.findAllGradeEquals(grade);
+    }
+
+   // public StudentDTO getStudentDtoById(Long id) {
+   //     Student student=getStudentById(id);
+//
+   //     //parametre olarak student objesinin kendisini verdigimizde DTO olusturan bir constructor
+   //     StudentDTO studentDTO=new StudentDTO(student);
+   //     return studentDTO;
+//
+   // }
+
+    //studenti dto ya mapleme islemini JPQL ile yapsak nasil olur
+
+    public StudentDTO getStudentDtoById(Long id) {
+        StudentDTO studentDTO=studentRepository.findStudentDtoById(id).orElseThrow(()->
+                new ResourceNotFoundException("Student not found by id: "+id));
+        return studentDTO;
+
     }
 }

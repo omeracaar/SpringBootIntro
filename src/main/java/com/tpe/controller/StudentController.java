@@ -121,16 +121,19 @@ public class StudentController {
     // sort=name&
     // direction=DESC + GET
     @GetMapping("/page")
-    public ResponseEntity<Page<Student>> getAllStudentByPage(@RequestParam("page") int page,//hangi page gösterilsin
-                                                             @RequestParam("size") int size,//kaç kayıt
-                                                             @RequestParam("sort") String prop,//hangi fielda göre
-                                                             @RequestParam("direction") Sort.Direction direction)//sıralama yönü
+    public ResponseEntity<Page<Student>> getAllStudentByPage
+    (@RequestParam(value = "page",required = false,defaultValue = "0") int page,//hangi page gösterilsin ilk deger 0
+     @RequestParam("size") int size,//kaç kayıt
+     @RequestParam("sort") String prop,//hangi fielda göre
+     @RequestParam("direction") Sort.Direction direction)//sıralama yönü
     {
         Pageable pageable= PageRequest.of(page,size,Sort.by(direction,prop));
         Page<Student> studentsByPage=studentService.getAllStudentPaging(pageable);
         return new ResponseEntity<>(studentsByPage,HttpStatus.OK);
-
     }
+
+    //page,size,sort,direction parametrelerinin girilmesini opsiyonel yapabiliriz.(required=false)
+    //parametrelerin girilmesi opsiyonel oldugunda default value vermeliyiz.
 
     //13-lastName ile studentlari listeleyelim.
     //https:/localhost:8080/students/querylastname?lastName=Bey
@@ -143,7 +146,20 @@ public class StudentController {
     //15-grade ile studentları listeleyelim. **ÖDEV**
     ////http://localhost:8080/students/grade/99
 
+    @GetMapping("/grade{grade}")
+    public ResponseEntity<List<Student>> getAllStudentByGrade(@PathVariable("grade") Integer grade){
 
+        List<Student> studentList=studentService.getAllStudentByGrade(grade);
+        return ResponseEntity.ok(studentList);
+    }
+
+    //17-idsi verilen studentin goruntuleme requestine response olarak DTO donelim.
+    ////http://localhost:8080/students//dto/1 + GET
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<StudentDTO> getStudentDtoById(Long id){
+        StudentDTO studentDTO=studentService.getStudentDtoById(id);
+        return ResponseEntity.ok(studentDTO);
+    }
 
 
 
