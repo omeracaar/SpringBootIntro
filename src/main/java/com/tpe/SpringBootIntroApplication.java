@@ -9,10 +9,12 @@ public class SpringBootIntroApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootIntroApplication.class, args);
-		//Student student=new Student();
-		//student.setId(1L);
-		//student.getName();
+//		Student student=new Student()
+//		student.setId(1L);
+//		student.getName();
 	}
+
+
 
 
 

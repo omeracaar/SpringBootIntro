@@ -38,7 +38,7 @@ public class StudentDTO {
     public StudentDTO(Student student){
         this.name=student.getName();
         this.lastName=student.getLastName();
-        this.grade=student.getGrade();
+        this.grade= student.getGrade();
         this.email=student.getEmail();
         this.phoneNumber=student.getPhoneNumber();
     }

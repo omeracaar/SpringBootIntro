@@ -11,25 +11,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository//opsiyonel
-public interface StudentRepository extends JpaRepository<Student,Long> {
-    Boolean existsByEmail(String email);//Long olmasi table daki id nin data tipinden dolayi
+public interface StudentRepository extends JpaRepository<Student,Long> {//JpaRepository<Entity Class,Id nin data tipi>
+    Boolean existsByEmail(String email);//bu emaile sahip kayıt varsa TRUE yoksa FALSE
 
-    List<Student> findAllByLastName(String lastName);
-
+    List<Student> findAllByLastName(String lastname);//findAllById
 
     List<Student> findAllByGrade(Integer grade);
 
     //JPQL
     @Query("SELECT s FROM Student s WHERE s.grade=:pGrade")
+ //   @Query("FROM Student s WHERE s.grade=:pGrade")
     List<Student> findAllGradeEquals(@Param("pGrade") Integer grade);
 
+
     //SQL
-   // @Query(value = "SELECT * FROM student s WHERE s.grade=:pGrade",nativeQuery = true)//Student
-   // List<Student> findAllGradeEquals(@Param("pGrade") Integer grade);
+//    @Query(value = "SELECT * FROM student s WHERE s.grade=:pGrade",nativeQuery = true)//Student
+//    List<Student> findAllGradeEquals(@Param("pGrade") Integer grade);
 
-    //DB den gelen studenti DTO ya cevirerek gonderiyor
-    @Query("SELECT new StudentDTO(s) FROM Student s WHERE s.id=:pID")
+
+    //DB den gelen studentı DTO ya çevirerek gönderiyor
+    @Query("SELECT new com.tpe.dto.StudentDTO(s) FROM Student s WHERE s.id=:pId")
     Optional<StudentDTO> findStudentDtoById(@Param("pId") Long id);
-
 
 }
